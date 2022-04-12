@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //회원가입 버튼 눌렸을시
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class); // 새로운 인덴트 객체를 생성후 생성자로 로그인액티비티와 레지스터 액티비티르 넘겨줌
                 startActivity(intent);
             }
         });
