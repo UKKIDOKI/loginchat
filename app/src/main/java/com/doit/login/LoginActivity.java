@@ -30,18 +30,20 @@ public class LoginActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("login");
 
-        mEtEmail = findViewById(R.id.et_email);
+        mEtEmail = findViewById(R.id.et_email);      // editText 와 뷰 연결
         mEtpwd = findViewById(R.id.et_pwd);
 
 
-        Button btn_login = findViewById(R.id.btn_login);
-        btn_login.setOnClickListener(new View.OnClickListener() {
+        Button btn_login = findViewById(R.id.btn_login);       // 버튼과 뷰 연결
+        btn_login.setOnClickListener(new View.OnClickListener() {    // 버튼클릭시 작동할 메서드
             @Override
             public void onClick(View view) {
                 // 로그인 버튼 클릭시
-                String strEmail = mEtEmail.getText().toString();
+                String strEmail = mEtEmail.getText().toString(); // EditText에 입력된 데이터를 가져온뒤 문자열 형태로 변환후 문자열타입 변수를 선언후 안에 저장
                 String strPwd = mEtpwd.getText().toString();
 
+
+                //
                 mFirebaseAuth.signInWithEmailAndPassword(strEmail, strPwd).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
