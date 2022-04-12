@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "217627551461",
+    "project_id": "login-2b103",
+    "storage_bucket": "login-2b103.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217627551461:android:62ea14aef17edce99b160c",
+        "android_client_info": {
+          "package_name": "com.doit.login"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217627551461-k1oic4rs2h5cnrh7elt7d552kabld19a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUv7LL8VZoDgqJ1CaTAv4W6E7LBzJpxFc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217627551461-k1oic4rs2h5cnrh7elt7d552kabld19a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
