@@ -3,6 +3,7 @@ package com.doit.login;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -60,7 +61,9 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
 
-
+                if (strEmail.equals(null) || strPwd.equals(null)) {
+                    Toast.makeText(RegisterActivity.this, "값을 입력해주세요", Toast.LENGTH_SHORT).show();
+                }
                 // FirebaseAyth 진행
                 mFirebaseAuth.createUserWithEmailAndPassword(strEmail, strPwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
