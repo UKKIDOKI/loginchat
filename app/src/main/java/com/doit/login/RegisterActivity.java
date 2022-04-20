@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,7 +24,7 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference mDatabaseRef; // 실시간 데이터베이스
     private EditText mEtEmail, mEtpwd; // 회원가입 입력창
     private Button mBtnRegister; // 회원가입 버튼
-
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
         mBtnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar = findViewById(R.id.progressBar);
                 // 회원가입 처리 시작
                 String strEmail = mEtEmail.getText().toString();
                 String strPwd = mEtpwd.getText().toString();
@@ -64,10 +66,12 @@ public class RegisterActivity extends AppCompatActivity {
                 if (strEmail.equals(null) || strPwd.equals(null)) {
                     Toast.makeText(RegisterActivity.this, "값을 입력해주세요", Toast.LENGTH_SHORT).show();
                 }
+                progressBar.setVisibility(View.VISIBLE);
                 // FirebaseAyth 진행
                 mFirebaseAuth.createUserWithEmailAndPassword(strEmail, strPwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressBar.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
                             FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
                             UserAccount account = new UserAccount();
@@ -79,6 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
                             // setvalue 데이터베이스에 입력
                             mDatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);
                             Toast.makeText(RegisterActivity.this, "회원가입에 성공 하셨습니다 .", Toast.LENGTH_SHORT).show();
+
                             finish();
                         } else {
                             Toast.makeText(RegisterActivity.this, "회원가입에 실패 하셨습니다 .", Toast.LENGTH_SHORT).show();

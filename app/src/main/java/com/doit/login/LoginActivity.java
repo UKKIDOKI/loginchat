@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth; // 파이어베이스 인증처리
     private DatabaseReference mDatabaseRef; // 실시간 데이터베이스
     private EditText mEtEmail, mEtpwd; // 로그인 입력창
-
+    ProgressBar progressBar; // 프로그래스바 선언
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // 로그인 버튼 클릭시
+                progressBar = findViewById(R.id.progressBar); //프로그래스바 가져오기
                 String strEmail = mEtEmail.getText().toString(); // EditText에 입력된 데이터를 가져온뒤 문자열 형태로 변환후 문자열타입 변수를 선언후 안에 저장
                 String strPwd = mEtpwd.getText().toString();
                 if (strEmail.isEmpty() && strPwd.isEmpty()){
@@ -56,14 +58,17 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
+                progressBar.setVisibility(View.VISIBLE); //프로그래스바 표시 활성화
                 //
                 mFirebaseAuth.signInWithEmailAndPassword(strEmail, strPwd).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressBar.setVisibility(View.GONE); //프로그래스바 비활성화
                         if (task.isSuccessful()) {
                             //로그인 성공
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
+                            Toast.makeText(LoginActivity.this, "환영합니다", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
                             Toast.makeText(LoginActivity.this, "로그인실패 ", Toast.LENGTH_SHORT).show();
