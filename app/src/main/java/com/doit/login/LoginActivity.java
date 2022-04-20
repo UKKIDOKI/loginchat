@@ -41,7 +41,20 @@ public class LoginActivity extends AppCompatActivity {
                 // 로그인 버튼 클릭시
                 String strEmail = mEtEmail.getText().toString(); // EditText에 입력된 데이터를 가져온뒤 문자열 형태로 변환후 문자열타입 변수를 선언후 안에 저장
                 String strPwd = mEtpwd.getText().toString();
+                if (strEmail.isEmpty() && strPwd.isEmpty()){
+                    Toast.makeText(LoginActivity.this, "아이디와 비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
+
+                if (strEmail.isEmpty()){
+                    Toast.makeText(LoginActivity.this, "아이디를 입력하세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (strPwd.isEmpty()){
+                    Toast.makeText(LoginActivity.this, "비밀번호를 입력하세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 //
                 mFirebaseAuth.signInWithEmailAndPassword(strEmail, strPwd).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {

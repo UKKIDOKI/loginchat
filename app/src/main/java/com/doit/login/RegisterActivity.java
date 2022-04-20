@@ -44,6 +44,21 @@ public class RegisterActivity extends AppCompatActivity {
                 // 회원가입 처리 시작
                 String strEmail = mEtEmail.getText().toString();
                 String strPwd = mEtpwd.getText().toString();
+                if (strEmail.isEmpty() && strPwd.isEmpty()){
+                    Toast.makeText(RegisterActivity.this, "아이디와 비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
+                if (strEmail.isEmpty()){
+                    Toast.makeText(RegisterActivity.this, "아이디를 입력하세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (strPwd.isEmpty()){
+                    Toast.makeText(RegisterActivity.this, "비밀번호를 입력하세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
 
 
                 // FirebaseAyth 진행
@@ -61,6 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
                             // setvalue 데이터베이스에 입력
                             mDatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);
                             Toast.makeText(RegisterActivity.this, "회원가입에 성공 하셨습니다 .", Toast.LENGTH_SHORT).show();
+                            finish();
                         } else {
                             Toast.makeText(RegisterActivity.this, "회원가입에 실패 하셨습니다 .", Toast.LENGTH_SHORT).show();
 
