@@ -22,24 +22,35 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
-    Button btn_logout, btn_deluser;
+    Button btn_logout, btn_deluser, btn_chat;
+    String strEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        strEmail = getIntent().getStringExtra("email");
         mFirebaseAuth = FirebaseAuth.getInstance();
 
 
         btn_logout = findViewById(R.id.btn_logout);
         btn_deluser = findViewById(R.id.btn_deluser);
+        btn_chat = findViewById(R.id.btn_chat);
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 mFirebaseAuth.signOut();
                 Toast.makeText(MainActivity.this, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
                 finish();
+            }
+        });
+        btn_chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+                intent.putExtra("email",strEmail);
+                startActivity(intent);
             }
         });
         btn_deluser.setOnClickListener(new View.OnClickListener() {

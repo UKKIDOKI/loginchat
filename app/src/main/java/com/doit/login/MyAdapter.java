@@ -10,8 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-    private String[] mData;
+    private ArrayList<ChatData> list;
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -20,10 +22,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             super(itemView);
             tvChat = itemView.findViewById(R.id.tvChat);
         }
+        public void setItem(C)
     }
 
-    public MyAdapter(String[] mData) {
-        this.mData = mData;
+
+    public MyAdapter(ArrayList<ChatData> list) {
+        this.list = list;
     }
 
     @NonNull
@@ -31,18 +35,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_chat,parent,false);
 
-
-        return new ViewHolder(v);
+        ViewHolder vh = new ViewHolder(v);
+        return vh;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tvChat.setText(mData[position]);
+        ChatData data = list.get(position);
+        holder.setItem(data);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return list.size();
     }
 
 
