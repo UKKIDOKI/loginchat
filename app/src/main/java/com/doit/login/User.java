@@ -1,11 +1,7 @@
 package com.doit.login;
 
-public class ChatData {
+public class User {
     String email;
-    String text;
-
-
-
     public String getEmail() {
         return email;
     }
@@ -14,11 +10,5 @@ public class ChatData {
         this.email = email;
     }
 
-    public String getText() {
-        return text;
-    }
 
-    public void setText(String text) {
-        this.text = text;
-    }
 }
