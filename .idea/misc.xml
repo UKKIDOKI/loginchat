@@ -4,18 +4,32 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/chat_bubble.xml" value="0.193" />
+        <entry key="app/src/main/res/drawable/ic_baseline_account_circle_24.xml" value="0.1495" />
+        <entry key="app/src/main/res/drawable/ic_baseline_message_24.xml" value="0.1495" />
+        <entry key="app/src/main/res/drawable/ic_baseline_people_outline_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_baseline_profile_24.xml" value="0.114" />
         <entry key="app/src/main/res/layout/activity_chat.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_chat_menu.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_chatmenu.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2875905797101449" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/activity_menu.xml" value="0.18489583333333334" />
         <entry key="app/src/main/res/layout/activity_regisrter.xml" value="0.2776268115942029" />
         <entry key="app/src/main/res/layout/activity_tab.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/activity_tab2.xml" value="0.18489583333333334" />
         <entry key="app/src/main/res/layout/chat.xml" value="1.5838815789473684" />
         <entry key="app/src/main/res/layout/chat_item.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.2857789855072464" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.1839080459770115" />
+        <entry key="app/src/main/res/layout/fragment_users.xml" value="0.22" />
         <entry key="app/src/main/res/layout/mdata.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/my_text_view.xml" value="0.18489583333333334" />
-        <entry key="app/src/main/res/layout/user_item_view.xml" value="0.18489583333333334" />
+        <entry key="app/src/main/res/layout/right_text_view.xml" value="0.35597826086956524" />
+        <entry key="app/src/main/res/layout/user_item_view.xml" value="0.22" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.18489583333333334" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
       </map>
     </option>
   </component>

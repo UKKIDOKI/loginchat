@@ -1,6 +1,5 @@
 package com.doit.login.ui.dashboard;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,26 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.doit.login.Chat;
-import com.doit.login.ChatAdapter;
-import com.doit.login.ChatList;
+import com.doit.login.MainActivity;
 import com.doit.login.MyAdapter;
-import com.doit.login.R;
 import com.doit.login.databinding.ActivityChatBinding;
-import com.doit.login.databinding.ActivityChatMenuBinding;
-import com.doit.login.databinding.ActivityChatMenuItemBinding;
-import com.doit.login.databinding.FragmentUsersBinding;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,30 +30,35 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Hashtable;
 
-public class UsersFragment extends Fragment {
-    private ActivityChatMenuBinding binding;
+public class UsersFragment1 extends Fragment {
+    private ActivityChatBinding binding;
     private RecyclerView recyclerView;
-    ChatAdapter mAdapter;
+    MyAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    EditText etText;
+    Button btnSend, btnfi;
     String stEmail;
-    String ivUser;
     FirebaseDatabase database;
-    ArrayList<ChatList> chatArrayList;
+    ArrayList<Chat> chatArrayList;
+    MainActivity mainActivity = new MainActivity();
     private static final String TAG = "UsersFragment";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         DashboardViewModel dashboardViewModel =
                 new ViewModelProvider(this).get(DashboardViewModel.class);
-        binding = ActivityChatMenuBinding.inflate(inflater, container, false);
+        binding = ActivityChatBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         database = FirebaseDatabase.getInstance();
         chatArrayList = new ArrayList<>();
         //    stEmail = getIntent().getStringExtra("email");
-
+        etText = binding.etText;
+        btnSend = binding.btnSend;
 
         recyclerView = binding.recyclerView;
+
+
 
 
         recyclerView.setHasFixedSize(true);
@@ -72,8 +68,7 @@ public class UsersFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new ChatAdapter(chatArrayList, stEmail, ivUser);
-
+        mAdapter = new MyAdapter(chatArrayList, stEmail);
         recyclerView.setAdapter(mAdapter);
         // final TextView textView = binding.textDashboard;
         //   dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
@@ -83,7 +78,7 @@ public class UsersFragment extends Fragment {
                 Log.d(TAG, "onChildAdded:" + dataSnapshot.getKey());
 
                 // A new comment has been added, add it to the displayed list
-                ChatList chat = dataSnapshot.getValue(ChatList.class);
+                Chat chat = dataSnapshot.getValue(Chat.class);
                 String commentKey = dataSnapshot.getKey();
                 String stEmail = chat.getEmail();
                 String stText = chat.getText();
@@ -136,18 +131,29 @@ public class UsersFragment extends Fragment {
         DatabaseReference ref = database.getReference("message");
         ref.addChildEventListener(childEventListener);
 
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM--dd hh:mm:ss");
-        String datetime = dateformat.format(c.getTime());
 
-        DatabaseReference myRef = database.getReference("message").child(datetime);
+                String stText = etText.getText().toString();
+                Toast.makeText(getActivity(), "MSG : " + stText, Toast.LENGTH_LONG).show();
 
-        Hashtable<String, String> numbers
-                = new Hashtable<String, String>();
-        numbers.put("email", stEmail);
 
-        myRef.setValue(numbers);
+                Calendar c = Calendar.getInstance();
+                SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM--dd hh:mm:ss");
+                String datetime = dateformat.format(c.getTime());
+
+                DatabaseReference myRef = database.getReference("message").child(datetime);
+
+                Hashtable<String, String> numbers
+                        = new Hashtable<String, String>();
+                numbers.put("email", stEmail);
+                numbers.put("text", stText);
+
+                myRef.setValue(numbers);
+            }
+        });
 
         return root;
     }

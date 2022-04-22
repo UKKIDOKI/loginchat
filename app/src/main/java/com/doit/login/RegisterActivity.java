@@ -19,11 +19,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Hashtable;
+
 public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth; // 파이어베이스 인증처리
     private DatabaseReference mDatabaseRef; // 실시간 데이터베이스
     private EditText mEtEmail, mEtpwd; // 회원가입 입력창
     private Button mBtnRegister; // 회원가입 버튼
+    FirebaseDatabase database;
     ProgressBar progressBar;
 
     @Override
@@ -32,6 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_regisrter);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
+
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("login");
 
         mEtEmail = findViewById(R.id.et_email);
@@ -79,6 +83,13 @@ public class RegisterActivity extends AppCompatActivity {
                             account.setEmailId(firebaseUser.getEmail());
                             account.setPassword(strPwd);
 
+//                            DatabaseReference myRef = database.getReference("users").child(firebaseUser.getUid());
+//
+//                            Hashtable<String, String> numbers
+//                                    = new Hashtable<String, String>();
+//                            numbers.put("email", firebaseUser.getEmail());
+//                            myRef.setValue(numbers);
+//
 
                             // setvalue 데이터베이스에 입력
                             mDatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);

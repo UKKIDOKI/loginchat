@@ -11,18 +11,22 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.doit.login.ui.home.HomeFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 // test
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth; // 파이어베이스 인증처리
     private DatabaseReference mDatabaseRef; // 실시간 데이터베이스
     private EditText mEtEmail, mEtpwd; // 로그인 입력창
     ProgressBar progressBar; // 프로그래스바 선언
+    private static HomeFragment homeFragment = new HomeFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,17 +47,17 @@ public class MainActivity extends AppCompatActivity {
                 progressBar = findViewById(R.id.progressBar); //프로그래스바 가져오기
                 String strEmail = mEtEmail.getText().toString(); // EditText에 입력된 데이터를 가져온뒤 문자열 형태로 변환후 문자열타입 변수를 선언후 안에 저장
                 String strPwd = mEtpwd.getText().toString();
-                if (strEmail.isEmpty() && strPwd.isEmpty()){
+                if (strEmail.isEmpty() && strPwd.isEmpty()) {
                     Toast.makeText(MainActivity.this, "아이디와 비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
 
-                if (strEmail.isEmpty()){
+                if (strEmail.isEmpty()) {
                     Toast.makeText(MainActivity.this, "아이디를 입력하세요", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (strPwd.isEmpty()){
+                if (strPwd.isEmpty()) {
                     Toast.makeText(MainActivity.this, "비밀번호를 입력하세요", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -67,9 +71,9 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             //로그인 성공
                             Intent intent = new Intent(MainActivity.this, MenuActivity.class);
-                            intent.putExtra("email",strEmail);
+                            intent.putExtra("email", strEmail);
                             startActivity(intent);
-                            Toast.makeText(MainActivity.this, "환영합니다 \n"+strEmail, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "환영합니다 \n" + strEmail, Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
                             Toast.makeText(MainActivity.this, "로그인실패 ", Toast.LENGTH_SHORT).show();
@@ -89,5 +93,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public void change_to_Menu() {
+        //getSupportFragmentManager().beginTransaction().replace(R.id.container).commit();
     }
 }
