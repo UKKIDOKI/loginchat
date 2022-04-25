@@ -28,6 +28,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.doit.login.MainActivity;
 import com.doit.login.MenuActivity;
 import com.doit.login.databinding.FragmentProfileBinding;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -50,13 +51,14 @@ public class ProfileFragment extends Fragment {
     private FragmentProfileBinding binding;
     String stEmail;
     File localFile;
-    TextView tv_userout;
+    TextView tv_userout, tv_logout;
     private Context context;
     private FirebaseAuth mFirebaseAuth;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         context = container.getContext();
+        mFirebaseAuth = FirebaseAuth.getInstance();
         NotificationsViewModel notificationsViewModel =
                 new ViewModelProvider(this).get(NotificationsViewModel.class);
 
@@ -75,7 +77,8 @@ public class ProfileFragment extends Fragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         mFirebaseAuth.getCurrentUser().delete();
                         Toast.makeText(context, "회원탈퇴가 완료되었습니다.", Toast.LENGTH_LONG).show();
-
+                        Intent intent = new Intent(context, MainActivity.class);
+                        startActivity(intent);
                     }
                 });
                 dig.setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -89,6 +92,17 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        tv_logout = binding.tvLogout;
+        tv_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mFirebaseAuth.signOut();
+                Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, MainActivity.class);
+                startActivity(intent);
+            }
+        });
         final TextView textView = binding.textNotifications;
         notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 

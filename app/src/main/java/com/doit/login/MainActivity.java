@@ -3,7 +3,9 @@ package com.doit.login;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -70,8 +72,13 @@ public class MainActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.GONE); //프로그래스바 비활성화
                         if (task.isSuccessful()) {
                             //로그인 성공
-                            Intent intent = new Intent(MainActivity.this, MenuActivity.class);
-                            intent.putExtra("email", strEmail);
+                            SharedPreferences sharedPref = getSharedPreferences("shared", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            editor.putString("email", strEmail);
+                            editor.commit();
+
+                            Intent intent = new Intent(MainActivity.this, TabActivity.class);
+                            intent.putExtra("email",strEmail);
                             startActivity(intent);
                             Toast.makeText(MainActivity.this, "환영합니다 \n" + strEmail, Toast.LENGTH_SHORT).show();
                             finish();
