@@ -2,6 +2,7 @@ package com.doit.login.ui.Profile;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -17,17 +18,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.doit.login.MenuActivity;
 import com.doit.login.databinding.FragmentProfileBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -45,21 +50,50 @@ public class ProfileFragment extends Fragment {
     private FragmentProfileBinding binding;
     String stEmail;
     File localFile;
-
+    TextView tv_userout;
+    private Context context;
+    private FirebaseAuth mFirebaseAuth;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        context = container.getContext();
         NotificationsViewModel notificationsViewModel =
                 new ViewModelProvider(this).get(NotificationsViewModel.class);
 
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        tv_userout = binding.tvUserOut;
+        tv_userout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder dig = new AlertDialog.Builder(context);
+                dig.setTitle("회원탈퇴");
+                dig.setMessage("회원 탈퇴를 하실려면 확인 버튼을 눌러주세요");
+                dig.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        mFirebaseAuth.getCurrentUser().delete();
+                        Toast.makeText(context, "회원탈퇴가 완료되었습니다.", Toast.LENGTH_LONG).show();
+
+                    }
+                });
+                dig.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                dig.show();
+
+            }
+        });
+
         final TextView textView = binding.textNotifications;
         notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         SharedPreferences sharedPref = getActivity().getSharedPreferences("shared", Context.MODE_PRIVATE);
-        stEmail = sharedPref.getString("email","");
+        stEmail = sharedPref.getString("email", "");
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         if (ContextCompat.checkSelfPermission(getActivity(),
@@ -136,8 +170,8 @@ public class ProfileFragment extends Fragment {
             }
 
             //            Uri file = Uri.fromFile(new File("path/to/images/rivers.jpg"));
-           StorageReference riversRef = mStorageRef.child("users").child(stEmail).child("profile.jpg");
-           //StorageReference riversRef = mStorageRef.child("users/rivers.jpg");
+            StorageReference riversRef = mStorageRef.child("users").child(stEmail).child("profile.jpg");
+            //StorageReference riversRef = mStorageRef.child("users/rivers.jpg");
 
             riversRef.putFile(image)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
