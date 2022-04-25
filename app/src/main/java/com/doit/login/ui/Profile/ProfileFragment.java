@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -28,11 +27,12 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.doit.login.MainActivity;
-import com.doit.login.MenuActivity;
+import com.doit.login.LoginActivity;
 import com.doit.login.databinding.FragmentProfileBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
@@ -51,7 +51,7 @@ public class ProfileFragment extends Fragment {
     private FragmentProfileBinding binding;
     String stEmail;
     File localFile;
-    TextView tv_userout, tv_logout;
+    TextView tv_userout, tv_logout, tv_passwordChange;
     private Context context;
     private FirebaseAuth mFirebaseAuth;
 
@@ -77,7 +77,7 @@ public class ProfileFragment extends Fragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         mFirebaseAuth.getCurrentUser().delete();
                         Toast.makeText(context, "회원탈퇴가 완료되었습니다.", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(context, MainActivity.class);
+                        Intent intent = new Intent(context, LoginActivity.class);
                         startActivity(intent);
                     }
                 });
@@ -91,7 +91,25 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+        tv_passwordChange = binding.tvPasswordChange;
+        tv_passwordChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mFirebaseAuth = FirebaseAuth.getInstance();
+                mFirebaseAuth.sendPasswordResetEmail(stEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
 
+                            Toast.makeText(context, "비밀번호 재설정 메일이 전송되었습니다.", Toast.LENGTH_LONG).show();
+                        } else {
+
+                        }
+                    }
+                });
+
+            }
+        });
         tv_logout = binding.tvLogout;
         tv_logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,7 +117,7 @@ public class ProfileFragment extends Fragment {
 
                 mFirebaseAuth.signOut();
                 Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(context, MainActivity.class);
+                Intent intent = new Intent(context, LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -175,40 +193,46 @@ public class ProfileFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CODE) {
-            Uri image = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), image);
-                ivUser.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            if (data == null) {
 
-            //            Uri file = Uri.fromFile(new File("path/to/images/rivers.jpg"));
-            StorageReference riversRef = mStorageRef.child("users").child(stEmail).child("profile.jpg");
-            //StorageReference riversRef = mStorageRef.child("users/rivers.jpg");
+            } else {
+                Uri image = data.getData();
 
-            riversRef.putFile(image)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            // Get a URL to the uploaded content
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), image);
+                    ivUser.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                //            Uri file = Uri.fromFile(new File("path/to/images/rivers.jpg"));
+                StorageReference riversRef = mStorageRef.child("users").child(stEmail).child("profile.jpg");
+                //StorageReference riversRef = mStorageRef.child("users/rivers.jpg");
+
+                riversRef.putFile(image)
+                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                // Get a URL to the uploaded content
 //                            Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                            Log.d(TAG, taskSnapshot.toString());
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            // Handle unsuccessful uploads
-                            // ...
-                        }
-                    });
+                                Log.d(TAG, taskSnapshot.toString());
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle unsuccessful uploads
+                                // ...
+                            }
+                        });
+            }
         }
+
     }
 
-
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 

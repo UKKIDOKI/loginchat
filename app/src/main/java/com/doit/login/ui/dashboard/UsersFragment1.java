@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.doit.login.Chat;
-import com.doit.login.MainActivity;
+import com.doit.login.LoginActivity;
 import com.doit.login.MyAdapter;
 import com.doit.login.databinding.ActivityChatBinding;
 import com.google.firebase.database.ChildEventListener;
@@ -40,7 +40,7 @@ public class UsersFragment1 extends Fragment {
     String stEmail;
     FirebaseDatabase database;
     ArrayList<Chat> chatArrayList;
-    MainActivity mainActivity = new MainActivity();
+    LoginActivity mainActivity = new LoginActivity();
     private static final String TAG = "UsersFragment";
 
     public View onCreateView(@NonNull LayoutInflater inflater,

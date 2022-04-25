@@ -164,10 +164,10 @@
                 android:background="#0C000000"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_3" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_passwordChange" />
 
             <TextView
-                android:id="@+id/tv_4"
+                android:id="@+id/tv_passwordChange"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_margin="5dp"
@@ -175,7 +175,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center_vertical"
-                android:text="test"
+                android:text="비밀번호 재설정"
                 android:textSize="25sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -191,7 +191,7 @@
                 android:background="#0C000000"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_4" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_passwordChange" />
 
             <TextView
                 android:id="@+id/tv_logout"
@@ -207,7 +207,7 @@
                 android:textSize="25sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_4"
+                app:layout_constraintTop_toBottomOf="@+id/tv_passwordChange"
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="404dp" />
 
