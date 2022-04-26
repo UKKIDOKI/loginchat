@@ -34,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     private CheckBox checkBox;
     private static HomeFragment homeFragment = new HomeFragment();
     private Context mContext;
+    String shared = "file"; //
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +46,16 @@ public class LoginActivity extends AppCompatActivity {
 
         mEtEmail = findViewById(R.id.et_email);      // editText 와 뷰 연결
         mEtpwd = findViewById(R.id.et_pwd);
+        checkBox = findViewById(R.id.checkbox);
 
-        boolean boo = PreferenceManager.get(mContext,"check"); //로그인 정보 기억하기 체크 유무 확인 if(boo){ // 체크가 되어있다면 아래 코드를 수행 //저장된 아이디와 암호를 가져와 셋팅한다. et_id.setText(PreferenceManager.getString(mContext, "id")); et_pw.setText(PreferenceManager.getString(mContext, "pw")); cb_save.setChecked(true); //체크박스는 여전히 체크 표시 하도록 셋팅 }
+
+        String value = DataSave.getString(LoginActivity.this, "rebuild");
+        mEtEmail.setText(value);
+        if (value.equals(""))
+        checkBox.setChecked(false);
+        // EditText에 받아온값 저장
+
+//        boolean boo = PreferenceManager.get(mContext,"check"); //로그인 정보 기억하기 체크 유무 확인 if(boo){ // 체크가 되어있다면 아래 코드를 수행 //저장된 아이디와 암호를 가져와 셋팅한다. et_id.setText(PreferenceManager.getString(mContext, "id")); et_pw.setText(PreferenceManager.getString(mContext, "pw")); cb_save.setChecked(true); //체크박스는 여전히 체크 표시 하도록 셋팅 }
 
 
         Button btn_login = findViewById(R.id.btn_login);       // 버튼과 뷰 연결
@@ -53,7 +63,17 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // 로그인 버튼 클릭시
+                if (checkBox.isChecked()) {
+                    String value = mEtEmail.getText().toString(); // EditText에 입력된 데이터를 문자열형태로 가져와 문자열 변수에 저장
+                    DataSave.setString(LoginActivity.this, "rebuild", value);
+
+                } else {
+                    String value = null;
+                    DataSave.setString(LoginActivity.this, "rebuild", value);
+                }
+
                 progressBar = findViewById(R.id.progressBar); //프로그래스바 가져오기
+
                 String strEmail = mEtEmail.getText().toString(); // EditText에 입력된 데이터를 가져온뒤 문자열 형태로 변환후 문자열타입 변수를 선언후 안에 저장
                 String strPwd = mEtpwd.getText().toString();
                 if (strEmail.isEmpty() && strPwd.isEmpty()) {
@@ -73,32 +93,38 @@ public class LoginActivity extends AppCompatActivity {
 
                 progressBar.setVisibility(View.VISIBLE); //프로그래스바 표시 활성화
                 //
-                mFirebaseAuth.signInWithEmailAndPassword(strEmail, strPwd).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressBar.setVisibility(View.GONE); //프로그래스바 비활성화
-                        if (task.isSuccessful()) {
-                            //로그인 성공
-                            SharedPreferences sharedPref = getSharedPreferences("shared", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.putString("email", strEmail);
-                            editor.commit();
+                mFirebaseAuth.signInWithEmailAndPassword(strEmail, strPwd).
 
-                            Intent intent = new Intent(LoginActivity.this, TabActivity.class);
-                            intent.putExtra("email", strEmail);
-                            startActivity(intent);
-                            Toast.makeText(LoginActivity.this, "환영합니다 \n" + strEmail, Toast.LENGTH_SHORT).show();
-                            finish();
-                        } else {
-                            Toast.makeText(LoginActivity.this, "로그인실패 ", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                        addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                progressBar.setVisibility(View.GONE); //프로그래스바 비활성화
+                                if (task.isSuccessful()) {
+                                    //로그인 성공
+
+                                    SharedPreferences sharedPref = getSharedPreferences("shared", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.putString("email", strEmail);
+                                    editor.commit();
+
+                                    Intent intent = new Intent(LoginActivity.this, TabActivity.class);
+                                    intent.putExtra("email", strEmail);
+                                    startActivity(intent);
+                                    Toast.makeText(LoginActivity.this, "환영합니다 \n" + strEmail, Toast.LENGTH_SHORT).show();
+
+                                    finish();
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "로그인실패 ", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             }
         });
 
 
-        tv_NewUser = findViewById(R.id.tv_NewUser);
+        tv_NewUser =
+
+                findViewById(R.id.tv_NewUser);
         tv_NewUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,7 +134,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        tv_PasswordChange = findViewById(R.id.tv_passwordChange);
+        tv_PasswordChange =
+
+                findViewById(R.id.tv_passwordChange);
         tv_PasswordChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,14 +144,18 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
     }
 
     public void change_to_Menu() {
         //getSupportFragmentManager().beginTransaction().replace(R.id.container).commit();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
-//    private String emailDuplicateCheck(String email) {
-//        mDatabaseRef.child("UserAccount").orderByChild("emailId").equalTo(email).addListenerForSingleValueEvent();
-//    }
+
+    }
 }
