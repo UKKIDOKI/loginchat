@@ -1,18 +1,16 @@
-package com.doit.login.ui.dashboard;
+package com.doit.login.ui.Home;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class DashboardViewModel extends ViewModel {
+public class HomeViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-
-    public DashboardViewModel() {
-
+    public HomeViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("채팅방 목록");
+        mText.setValue("");
     }
 
     public LiveData<String> getText() {

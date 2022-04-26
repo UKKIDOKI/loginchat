@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -16,7 +15,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.doit.login.ui.home.HomeFragment;
+import com.doit.login.ui.Chat.ChatListFragment;
+import com.doit.login.ui.Home.HomeFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         String value = DataSave.getString(LoginActivity.this, "rebuild");
         mEtEmail.setText(value);
         if (value.equals(""))
-        checkBox.setChecked(false);
+            checkBox.setChecked(false);
         // EditText에 받아온값 저장
 
 //        boolean boo = PreferenceManager.get(mContext,"check"); //로그인 정보 기억하기 체크 유무 확인 if(boo){ // 체크가 되어있다면 아래 코드를 수행 //저장된 아이디와 암호를 가져와 셋팅한다. et_id.setText(PreferenceManager.getString(mContext, "id")); et_pw.setText(PreferenceManager.getString(mContext, "pw")); cb_save.setChecked(true); //체크박스는 여전히 체크 표시 하도록 셋팅 }
@@ -109,10 +109,14 @@ public class LoginActivity extends AppCompatActivity {
 
                                     Intent intent = new Intent(LoginActivity.this, TabActivity.class);
                                     intent.putExtra("email", strEmail);
+                                    ChatListFragment fragment = new ChatListFragment();
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("data2", mEtEmail.getText().toString());
+                                    fragment.setArguments(bundle);
                                     startActivity(intent);
                                     Toast.makeText(LoginActivity.this, "환영합니다 \n" + strEmail, Toast.LENGTH_SHORT).show();
 
-                                    finish();
+//                                    finish();
                                 } else {
                                     Toast.makeText(LoginActivity.this, "로그인실패 ", Toast.LENGTH_SHORT).show();
                                 }
@@ -148,9 +152,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void change_to_Menu() {
-        //getSupportFragmentManager().beginTransaction().replace(R.id.container).commit();
-    }
+//    public void change_to_Menu() {
+//        //getSupportFragmentManager().beginTransaction().replace(R.id.container).commit();
+//    }
 
     @Override
     protected void onDestroy() {

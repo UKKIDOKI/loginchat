@@ -1,4 +1,4 @@
-package com.doit.login.ui.home;
+package com.doit.login.ui.Home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

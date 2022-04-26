@@ -1,11 +1,23 @@
 package com.doit.login;
+
+import android.provider.ContactsContract;
+
 /*
  사용자 계정 정보 모델 클래스
  */
 public class UserAccount {
     private String emailId;
     private String password;
+    private String nickname;
     private String idToken; // Firebase Uid 고유정보
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     public UserAccount() { }
 
