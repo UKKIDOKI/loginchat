@@ -26,7 +26,7 @@ import java.util.Hashtable;
 public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth; // 파이어베이스 인증처리
     private DatabaseReference mDatabaseRef; // 실시간 데이터베이스
-    private EditText mEtEmail, mEtpwd, mEtname; // 회원가입 입력창
+    private EditText mEtEmail, mEtpwd, mEtname, mnickname; // 회원가입 입력창
     private Button mBtnRegister; // 회원가입 버튼
     FirebaseDatabase database;
     ProgressBar progressBar;
@@ -44,6 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
         mEtEmail = findViewById(R.id.et_email);
         mEtpwd = findViewById(R.id.et_pwd);
         mEtname = findViewById(R.id.et_nickname);
+        mnickname = findViewById(R.id.et_nickname2);
 
         mBtnRegister = findViewById(R.id.btn_register);
 
@@ -56,6 +57,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String strEmail = mEtEmail.getText().toString();
                 String strPwd = mEtpwd.getText().toString();
                 String strname = mEtname.getText().toString();
+                   String strnickname = mnickname.getText().toString();
 
                 if (strEmail.isEmpty() && strPwd.isEmpty() && strname.isEmpty()) {
                     Toast.makeText(RegisterActivity.this, "해당 항목을 입력해주세요 ", Toast.LENGTH_SHORT).show();
@@ -95,6 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     UserAccount account = new UserAccount();
                                     account.setIdToken(firebaseUser.getUid());
                                     account.setEmailId(firebaseUser.getEmail());
+                                    account.setNname(firebaseUser.getDisplayName());
                                     account.setNickname(strname);
                                     account.setPassword(strPwd);
 

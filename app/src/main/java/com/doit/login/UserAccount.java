@@ -10,9 +10,17 @@ public class UserAccount {
     private String password;
     private String nickname;
     private String idToken; // Firebase Uid 고유정보
-
+    private String Nname;
     public String getNickname() {
         return nickname;
+    }
+
+    public String getNname() {
+        return Nname;
+    }
+
+    public void setNname(String nname) {
+        Nname = nname;
     }
 
     public void setNickname(String nickname) {
